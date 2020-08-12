@@ -1,0 +1,9 @@
+com\zizhou\dao\MemberDao.class
+com\zizhou\dao\OrderDao.class
+com\zizhou\dao\SetmealDao.class
+com\zizhou\dao\UserDao.class
+com\zizhou\dao\RoleDao.class
+com\zizhou\dao\CheckGroupDao.class
+com\zizhou\dao\CheckItemDao.class
+com\zizhou\dao\OrderSettingDao.class
+com\zizhou\dao\PermissionDao.class

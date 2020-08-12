@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zizhou.dao.PermissionDao">
+
+    <!--根据角色id查询权限数据-->
+    <select id="findPermissionByRoleId" parameterType="int" resultType="com.zizhou.pojo.Permission">
+        SELECT * FROM t_permission WHERE id in(
+            SELECT permission_id FROM t_role_permission WHERE role_id = #{roleId})
+    </select>
+
+</mapper>

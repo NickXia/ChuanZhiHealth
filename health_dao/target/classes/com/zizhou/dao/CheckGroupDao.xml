@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zizhou.dao.CheckGroupDao">
+
+    <!--新增检查项-->
+    <insert id="add" parameterType="com.zizhou.pojo.CheckGroup">
+    <!--查询检查组id-->
+    <selectKey keyProperty="id" order="AFTER" resultType="int">
+        select LAST_INSERT_ID()
+    </selectKey>
+        insert into t_checkgroup(code,name,helpCode,sex,remark,attention)
+        values (#{code},#{name},#{helpCode},#{sex},#{remark},#{attention})
+
+    </insert>
+
+    <!--保存检查项和中间表-->
+    <insert id="setCheckGroupAndCheckItem" parameterType="map">
+        insert into t_checkgroup_checkitem(checkgroup_id,checkitem_id)
+        values(#{groupId},#{checkitemId})
+    </insert>
+
+    <!--分页查询检查项-->
+    <select id="selectByCondition" parameterType="string" resultType="com.zizhou.pojo.CheckGroup">
+        select * from t_checkgroup
+        <if test="value != null and value.length > 0">
+            where code= #{value} or name=#{value} or helpCode=#{value}
+        </if>
+    </select>
+
+    <!--根据检查组id查询检查项对象-->
+    <select id="findById" parameterType="int" resultType="com.zizhou.pojo.CheckGroup">
+        select * from t_checkgroup where id = #{id}
+    </select>
+
+    <!--根据检查组id查询检查项ids-->
+    <select id="findCheckItemIdsByCheckGroupId" parameterType="int" resultType="int">
+        select checkitem_id from t_checkgroup_checkitem where checkgroup_id=#{id}
+    </select>
+
+    <!--根据检查组id更新检查组表-->
+    <update id="edit" parameterType="com.zizhou.pojo.CheckGroup">
+        update t_checkgroup
+        <set>
+            <if test="code != null">
+                code = #{code},
+            </if>
+            <if test="name != null">
+                name = #{name},
+            </if>
+            <if test="helpCode != null">
+                helpCode = #{helpCode},
+            </if>
+            <if test="sex != null">
+                sex = #{sex},
+            </if>
+            <if test="remark != null">
+                remark = #{remark},
+            </if>
+            <if test="attention != null">
+                attention = #{attention},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <!--根据检查组id删除中间表已经关联的数据(t_checkgroup_checkitem和t_setmeal_checkgroup)-->
+    <delete id="deleteAssociation" parameterType="int">
+        delete from t_checkgroup_checkitem where checkgroup_id = #{id}
+    </delete>
+
+    <delete id="deletetSetmealByGroupId" parameterType="int">
+        DELETE FROM t_setmeal_checkgroup where checkgroup_id = #{id}
+    </delete>
+
+    <!--根据检查组id删除检查项对象-->
+    <delete id="deleteById" parameterType="int">
+        delete from t_checkgroup where id = #{id}
+    </delete>
+
+    <!--查询所有检查组-->
+    <select id="findAll" resultType="com.zizhou.pojo.CheckGroup">
+        select * from t_checkgroup
+    </select>
+
+    <!--baseResultMap-->
+    <resultMap id="baseResultMap" type="com.zizhou.pojo.CheckGroup">
+        <!--
+           column：数据库中的字段  property：实体类中的属性
+           主键字段：一般使用<id>标签 其它都是<result>
+        -->
+        <id column="id" property="id"></id>
+        <result column="code" property="code"></result>
+        <result column="name" property="name"></result>
+        <result column="helpCode" property="helpCode"></result>
+        <result column="sex" property="sex"></result>
+        <result column="remark" property="remark"></result>
+        <result column="attention" property="attention"></result>
+    </resultMap>
+
+    <!--提取-->
+    <resultMap id="findByIdResultMap" type="com.zizhou.pojo.CheckGroup" extends="baseResultMap">
+        <!--查询检查项数据-->
+        <collection property="checkItems" column="id" select="com.zizhou.dao.CheckItemDao.findCheckItemById"/>
+    </resultMap>
+
+    <!--根据套餐id查询检查组数据-->
+    <select id="findCheckGroupById" parameterType="int" resultMap="findByIdResultMap">
+        select * from t_checkgroup where id
+        in (select checkgroup_id from t_setmeal_checkgroup where setmeal_id = #{id})
+    </select>
+</mapper>

@@ -1,0 +1,13 @@
+com\zizhou\pojo\CheckItem.class
+com\zizhou\entity\Result.class
+com\zizhou\pojo\Member.class
+com\zizhou\entity\QueryPageBean.class
+com\zizhou\pojo\Menu.class
+com\zizhou\pojo\CheckGroup.class
+com\zizhou\pojo\OrderSetting.class
+com\zizhou\pojo\User.class
+com\zizhou\pojo\Role.class
+com\zizhou\pojo\Permission.class
+com\zizhou\pojo\Setmeal.class
+com\zizhou\entity\PageResult.class
+com\zizhou\pojo\Order.class

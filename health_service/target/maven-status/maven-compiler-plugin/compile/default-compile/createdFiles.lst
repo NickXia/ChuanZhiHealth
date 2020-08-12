@@ -1,0 +1,8 @@
+com\zizhou\service\impl\MemberServiceImpl.class
+com\zizhou\service\impl\SetmealServiceImpl.class
+com\zizhou\service\impl\ReportServiceImpl.class
+com\zizhou\service\impl\CheckGroupServiceImpl.class
+com\zizhou\service\impl\CheckItemServiceImpl.class
+com\zizhou\service\impl\OrderServiceImpl.class
+com\zizhou\service\impl\OrderSettingServiceImpl.class
+com\zizhou\service\impl\UserServiceImpl.class
